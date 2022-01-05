@@ -1,37 +1,35 @@
 class Solution {
     public int countComponents(int n, int[][] edges) {
-      int[] representative = new int[n];
-        int[] size = new int[n];
+      int components = 0;
+        int[] visited = new int[n];
+        
+        List<List<Integer>> adjList = new ArrayList<>();
         
         for(int i = 0; i < n; i++){
-            size[i] = 1;
-            representative[i] = i;
+            adjList.add(new ArrayList<>());
         }
-        int components = n;
         
-        for(int i = 0; i < edges.length; i++){
-            components -= combine(representative, size, edges[i][0], edges[i][1]);
+        for(int i = 0; i< edges.length; i++){
+            adjList.get(edges[i][0]).add(edges[i][1]);
+            adjList.get(edges[i][1]).add(edges[i][0]);
+        }
+        
+        for(int i = 0; i<n; i++){
+            if(visited[i] == 0){
+                components++;
+                dfs(adjList, visited, i);
+            }
         }
         return components;
     }
     
-    public int find(int[] representative, int vertex){
-        if(vertex == representative[vertex]){return representative[vertex]; }
-        return representative[vertex] = find(representative, representative[vertex]);
-    }
-    
-    public int combine(int[] representative, int[] size, int vertex0, int vertex1){
-        vertex0 = find(representative, vertex0);
-        vertex1 = find(representative, vertex1);
-        if(vertex0 == vertex1){
-            return 0;
-        } else if(size[vertex0] > size[vertex1]){
-            size[vertex0] += size[vertex1];
-            representative[vertex1] = vertex0;
-        } else {
-            size[vertex1] += size[vertex0];
-            representative[vertex0] = vertex1;
+    public void dfs(List<List<Integer>> adjList, int[] visited, int startNode){
+        visited[startNode] = 1;
+        
+        for(int i = 0; i<adjList.get(startNode).size(); i++){
+            if(visited[adjList.get(startNode).get(i)] == 0){
+                dfs(adjList, visited, adjList.get(startNode).get(i));
+            }
         }
-        return 1;
     }
 }
