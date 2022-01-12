@@ -14,17 +14,15 @@ class Solution {
             adjList.get(edge[0]).add(edge[1]);
         }
         
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(start);
-        while(!queue.isEmpty()){
-            int val = queue.poll();
-            seen.add(val);
-            if(val == end){
-                return true;
-            }
-            for(int element: adjList.get(val)){
-                if(!seen.contains(element))
-                queue.add(element);
+        return dfs(adjList, seen, start, end);
+    }
+    
+    public boolean dfs(List<List<Integer>> adjList, Set<Integer> seen, int start, int end){
+        if(start == end){return true;}
+        for(int neighbor : adjList.get(start)){
+            if(!seen.contains(neighbor)){
+                seen.add(neighbor);
+                if(dfs(adjList, seen, neighbor, end)) {return true;}
             }
         }
         return false;
