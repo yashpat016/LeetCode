@@ -1,24 +1,22 @@
 class Solution {
-        public int target;
-        public List<List<Integer>> results;
-    
-    public void backtrack(int[][] graph, int currNode, LinkedList<Integer> path){
-        if(currNode == target){
-            results.add(new ArrayList<Integer>(path));
-            return;
-        }
-        for(int nextNode : graph[currNode]){
-            path.addLast(nextNode);
-            backtrack(graph, nextNode, path);
-            path.removeLast();
-        }
-    }
     public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
-     target = graph.length - 1;
-     results = new ArrayList<List<Integer>>();
-        LinkedList<Integer> path = new LinkedList<Integer>();
-        path.addLast(0);
-        backtrack(graph, 0, path);
-        return results;
-    } 
+        int target = graph.length - 1;
+        List<List<Integer>> result = new ArrayList<>();
+        LinkedList<Integer> path = new LinkedList<>();
+        path.add(0);
+        backtrack(graph, 0, target, path, result);
+        return result;
+    }
+    
+    public void backtrack(int[][] graph, int start, int target, LinkedList<Integer> path, List<List<Integer>> result){
+       if(start == target){
+           result.add(new ArrayList<Integer>(path));
+       } 
+        
+    for(int neighbor : graph[start]){
+        path.addLast(neighbor);
+        backtrack(graph, neighbor, target, path, result);
+        path.removeLast();
+    }
+    }
 }
