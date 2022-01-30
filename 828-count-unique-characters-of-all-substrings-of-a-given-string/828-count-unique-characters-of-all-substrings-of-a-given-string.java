@@ -1,32 +1,21 @@
 class Solution {
     public int uniqueLetterString(String s) {
+       int result = 0;
+        int count = 0;
+        int[] lastSeen = new int[26];
+        int[] lastCount = new int[26];
+        Arrays.fill(lastSeen, -1);
         
-        int[] left = new int[s.length()];
-        int[] right = new int[s.length()];
-        
-        Map<Character, Integer> map = new HashMap<>();
-        for(int i = 0; i < s.length(); i++){
-            char ch = s.charAt(i);
-            map.putIfAbsent(ch, -1);
-            left[i] = map.get(ch);
-            map.put(ch, i);
-        }
-        map.clear();
-        
-        for(int i = s.length() - 1; i >= 0; i--){
-            char ch = s.charAt(i);
-            map.putIfAbsent(ch, s.length());
-            right[i] = map.get(ch);
-            map.put(ch, i);
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            int idx = c - 'A';
+            int currCnt = i - lastSeen[idx];
+            count = count - lastCount[idx] + currCnt;
+            lastSeen[idx] = i;
+            lastCount[idx] = currCnt;
+            result += count;
         }
         
-        int res = 0;
-        
-        for(int i = 0; i < s.length(); i++){
-            int numOfLeft = i - left[i];
-            int numOfRight = right[i] - i;
-            res += numOfLeft * numOfRight;
-        }
-        return res;
+        return result;
     }
 }
