@@ -1,23 +1,14 @@
 class Solution {
     public int kthFactor(int n, int k) {
-        int count = 0;
-        for(int i = 1; i <= n/2; i++){
-            if(n % i == 0){
-                count++;
-            }
-            if(count == k){
-                return i;
-            }
+        for (int x = 1; x < n / 2 + 1; ++x) {
+            if (n % x == 0) {
+                --k;
+                if (k == 0) {
+                    return x;    
+                }    
+            }    
         }
-        int primeCount = 0;
-        for(int i = 1; i <= n; i++){
-            if(n%i == 0){
-                primeCount++;
-            }
-            if(primeCount == k){
-                return i;
-            }
-        }
-        return -1;
+        
+        return k == 1 ? n : -1;
     }
 }
