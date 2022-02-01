@@ -1,7 +1,8 @@
 class Solution {
     public int kthFactor(int n, int k) {
         int count = 0;
-        for(int i = 1; i <= n/2; i++){
+        int i;
+        for(i = 1; i <= n/2; i++){
             if(n % i == 0){
                 count++;
             }
@@ -9,12 +10,11 @@ class Solution {
                 return i;
             }
         }
-        int primeCount = 0;
-        for(int i = 1; i <= n; i++){
+        for(i = n/2 + 1; i <= n; i++){
             if(n%i == 0){
-                primeCount++;
+                count++;
             }
-            if(primeCount == k){
+            if(count == k){
                 return i;
             }
         }
