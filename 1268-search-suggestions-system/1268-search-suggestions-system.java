@@ -29,7 +29,7 @@ class Solution {
                 }
                 result.get(result.size() - 1).add(products[i]);
             }
-            bsStart = Math.abs(start);
+            // bsStart = Math.abs(start);
         }
         return result;
     }
