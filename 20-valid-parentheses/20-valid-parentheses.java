@@ -13,7 +13,7 @@ class Solution {
         for(int i = 0; i < s.length(); i++){
             char c = s.charAt(i);
             if(this.mapping.containsKey(c)){
-                char topElement = stack.empty() ? '#' : stack.pop();
+                char topElement = stack.isEmpty() ? '#' : stack.pop();
                 if(topElement != this.mapping.get(c)){
                     return false;
                 }
