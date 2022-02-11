@@ -1,18 +1,14 @@
 class Solution {
     public List<String> findAllConcatenatedWordsInADict(String[] words) {
         List<String> res = new ArrayList<>();
-        Set<String> wordsSet = new HashSet<>();
-        Arrays.sort(words, new Comparator<String>(){
-            public int compare(String s1, String s2) {
-                return s1.length() - s2.length();
-            }
-        });
+        Set<String> set = new HashSet<>();
+        Arrays.sort(words, (String s1, String s2) -> Integer.compare(s1.length(), s2.length()) );
         
         for(int i = 0; i < words.length; i++) {
-            if(wordBreak(words[i], wordsSet)) {
+            if(wordBreak(words[i], set)) {
                 res.add(words[i]);
             }
-            wordsSet.add(words[i]);
+            set.add(words[i]);
         }
         
         return res;
