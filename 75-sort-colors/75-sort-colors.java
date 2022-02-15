@@ -1,18 +1,18 @@
 class Solution {
     public void sortColors(int[] nums) {
-        Map<Integer, Integer> count = new HashMap<>();
-        int c = 0;
-        for(int i = 0; i< nums.length; i++){
-            c = count.getOrDefault(nums[i], 0) + 1;
-            count.put(nums[i], c);
-        }
-        int i=0;
-        for(Map.Entry<Integer,Integer> entry : count.entrySet()){
-            for(int j=0;j<entry.getValue();j++)
-            {
-                nums[i]=entry.getKey();
-                i++;
-            }
+        int p0 = 0, p2 = nums.length - 1, i =0;
+        while(i <= p2){
+           if(nums[i] == 0){
+               int temp = nums[i];
+               nums[i++] = nums[p0];
+               nums[p0++] = temp;
+           } else if(nums[i] == 1){
+               i++;
+           } else {
+               int temp2 = nums[p2];
+               nums[p2--] = nums[i];
+               nums[i] = temp2;
+           }
         }
     }
 }
