@@ -10,7 +10,7 @@ class Solution {
         
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < cols; j++){
-                if(this.backtrack(i, j, word, 0)){
+                if(backtrack(i, j, word, 0)){
                     return true;
                 }
             }
