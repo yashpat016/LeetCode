@@ -1,6 +1,6 @@
 class Solution {
     public String minRemoveToMakeValid(String s) {
-        Set<Integer> indexesToRemove = new HashSet<>();
+        Set<Integer> faultPar = new HashSet<>();
         Deque<Integer> stack = new ArrayDeque<>();
         for(int i =0 ; i < s.length(); i++){
             if(s.charAt(i) == '('){
@@ -8,7 +8,7 @@ class Solution {
             }
             if(s.charAt(i) == ')'){
                 if(stack.isEmpty()){
-                    indexesToRemove.add(i);
+                    faultPar.add(i);
                 } else {
                     stack.pop();
                 }
@@ -16,11 +16,11 @@ class Solution {
         }
         
         while(!stack.isEmpty()){
-            indexesToRemove.add(stack.pop());
+            faultPar.add(stack.pop());
         }
         StringBuilder sb = new StringBuilder();
         for(int i =0; i < s.length(); i++){
-            if(!indexesToRemove.contains(i)){
+            if(!faultPar.contains(i)){
                 sb.append(s.charAt(i));
             }
         }
