@@ -1,56 +1,72 @@
-class TrieNode{
-    Map<Character, TrieNode> children = new HashMap<>();
-    boolean word = false;
-    public TrieNode() {}
-}
-
 class WordDictionary {
-        TrieNode trie;
-        
-        public WordDictionary(){
-            trie = new TrieNode();
-        }
+    TrieNode root;
+    public WordDictionary() {
+        root = new TrieNode();
+    }
     
     public void addWord(String word) {
-        TrieNode node = trie;
+        TrieNode cur = root;
+        HashMap<Character, TrieNode> curChildren = root.children;
+        char[] chs = word.toCharArray();
+        for (int i = 0; i < chs.length; i++) {
+            char ch = chs[i];
+            if (!curChildren.containsKey(ch)) {
+                cur = new TrieNode(ch);
+                curChildren.put(ch, cur);
+            }
+            else {
+                cur = curChildren.get(ch);
+            }
+            curChildren = cur.children;
+            
+            if (i == chs.length - 1)
+                cur.hasWord = true;
+        }
+    }
+    
+    public boolean search(String word) {    // 要用DFS？
+        char[] chs = word.toCharArray();
+        TrieNode cur = root;
         
-        for(char ch: word.toCharArray()){
-            if(!node.children.containsKey(ch)){
-                node.children.put(ch, new TrieNode());
-            }
-            node = node.children.get(ch);
-        }
-        node.word = true;
+        return DFS(chs, 0, cur);
     }
     
-    public boolean searchInNode(String word, TrieNode node) {
-        for(int i = 0; i < word.length(); i++){
-            char ch = word.charAt(i);
-            if(!node.children.containsKey(ch)){
-                if(ch == '.'){
-                    for(char x: node.children.keySet()){
-                        TrieNode child = node.children.get(x);
-                        if(searchInNode(word.substring(i+1), child)){
-                            return true;
-                        }
-                    }
-                }
+    public boolean DFS (char[] chs, int k, TrieNode cur) {
+        if (k == chs.length) {
+            return cur.hasWord;
+        }
+        
+        char ch = chs[k];
+        HashMap<Character, TrieNode> curChildren = cur.children;
+                        
+        if (ch != '.') {
+            if (curChildren.containsKey(ch)) {
+                return DFS (chs, k + 1, curChildren.get(ch));
+            }
+            else 
                 return false;
-            } else {
-              node = node.children.get(ch);  
-            }
         }
-        return node.word;
-    }
-    
-    public boolean search(String word) {
-        return searchInNode(word,trie);
+        else {
+            for (TrieNode child:curChildren.values()) {
+                if (DFS(chs, k + 1, child) == true)
+                    return true;
+            }
+            return false;
+        }
+        
     }
 }
 
-/**
- * Your WordDictionary object will be instantiated and called as such:
- * WordDictionary obj = new WordDictionary();
- * obj.addWord(word);
- * boolean param_2 = obj.search(word);
- */
+class TrieNode {
+    char c;
+    boolean hasWord;
+    HashMap<Character, TrieNode> children = new HashMap<>();
+    
+    public TrieNode() {
+        
+    }
+    
+    public TrieNode(char c) {
+        this.c = c;
+    }
+}
