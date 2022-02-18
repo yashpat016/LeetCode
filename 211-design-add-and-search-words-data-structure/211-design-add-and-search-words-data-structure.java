@@ -37,17 +37,16 @@ class WordDictionary {
         }
         
         char ch = chs[k];
-        HashMap<Character, TrieNode> curChildren = cur.children;
                         
         if (ch != '.') {
-            if (curChildren.containsKey(ch)) {
-                return DFS (chs, k + 1, curChildren.get(ch));
+            if (cur.children.containsKey(ch)) {
+                return DFS (chs, k + 1, cur.children.get(ch));
             }
             else 
                 return false;
         }
         else {
-            for (TrieNode child:curChildren.values()) {
+            for (TrieNode child:cur.children.values()) {
                 if (DFS(chs, k + 1, child) == true)
                     return true;
             }
