@@ -24,7 +24,7 @@ class WordDictionary {
         }
     }
     
-    public boolean search(String word) {    // 要用DFS？
+    public boolean search(String word) {  
         char[] chs = word.toCharArray();
         TrieNode cur = root;
         
